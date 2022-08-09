@@ -1,0 +1,48 @@
+#/bin/env python3
+
+import sys
+
+def set_file_or_exit():
+    if len(sys.argv) == 2:
+        return(sys.argv[1])
+    else:
+        sys.exit('Usage: {} <input.csv>'.format(sys.argv[0]))
+
+def read_input(input_file):
+    with open(input_file, 'r') as f:
+        data = f.read().splitlines()
+    return(data)
+    
+def value_at_coord(data, coord):
+    return(data[coord[0]][coord[1]])
+    
+
+def main():
+    input_file = set_file_or_exit()
+    data = read_input(input_file)
+
+    from pprint import pprint
+
+    f_data = []
+    for line in data:
+        f_data.append([int(x) for x in line.split()])
+
+    pprint(f_data)
+
+    #f_data = [[3],[7,4],[2,4,6],[8,5,9,3]]
+
+    count = 0
+    while len(f_data) > 1:
+        a = f_data.pop()
+        b = f_data.pop()
+        tmp = []
+        for i in b:
+            tmp.append(max(a[count]+i, a[count+1]+i))
+            count += 1
+        f_data.append(tmp)
+        count = 0
+    print(f_data[0])
+
+
+if __name__ == "__main__":
+    main()
